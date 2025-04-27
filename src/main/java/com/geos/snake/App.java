@@ -31,7 +31,7 @@ import javafx.scene.text.Font;
 
 public class App extends Application {
 
-    private final int speed = 880; // 180
+    private final int speed = 180; // 180
     private final int maxYammys = 8;
     private final int freqYammy = 4;
     private final boolean godMode = false;
@@ -40,6 +40,7 @@ public class App extends Application {
     private final int cellCount = 20;
     private final int sizeRect = 18;
     private String direction = "UP";
+    private String currentDirection = "UP";
     private Stage mainStage;
     private StackPane gamePane;
     private Label score;
@@ -190,26 +191,26 @@ public class App extends Application {
     private String antiReverse(String newDirection) {
         switch (newDirection) {
             case "UP":
-                if (direction.equals("DOWN")) 
-                    return direction;
+                if (currentDirection.equals("DOWN")) 
+                    return currentDirection;
                 break;
             case "DOWN":
-                if (direction.equals("UP")) 
-                    return direction;
+                if (currentDirection.equals("UP")) 
+                    return currentDirection;
                 break;
             case "LEFT":
-                if (direction.equals("RIGHT")) 
-                    return direction;
+                if (currentDirection.equals("RIGHT")) 
+                    return currentDirection;
                 break;
             case "RIGHT":
-                if (direction.equals("LEFT")) 
-                    return direction;
+                if (currentDirection.equals("LEFT")) 
+                    return currentDirection;
                 break;
             case "SPACE":
                 pauseGame();
-                return direction;
+                return currentDirection;
             default:
-                newDirection = direction;
+                newDirection = currentDirection;
         }
         return newDirection;
     }
@@ -388,23 +389,25 @@ public class App extends Application {
         return r;
     }
 
-    private int[] getNextCoord(int colIndex, int rowIndex) {
-        if (direction.equals("UP")) {
+    private int[] getNextCoord(int colIndex, int rowIndex) {      
+        currentDirection = antiReverse(direction);
+        
+        if (currentDirection.equals("UP")) {
             rowIndex--;
             if (rowIndex < 0) 
                 rowIndex = cellCount - 1;
         }
-        if (direction.equals("DOWN")) {
+        if (currentDirection.equals("DOWN")) {
             rowIndex++;
             if (rowIndex > cellCount - 1) 
                 rowIndex = 0;
         }
-        if (direction.equals("LEFT")) {
+        if (currentDirection.equals("LEFT")) {
             colIndex--;
             if (colIndex < 0) 
                 colIndex = cellCount - 1;
         }
-        if (direction.equals("RIGHT")) {
+        if (currentDirection.equals("RIGHT")) {
             colIndex++;
             if (colIndex > cellCount - 1) 
                 colIndex = 0;
