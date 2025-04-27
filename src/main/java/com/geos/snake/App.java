@@ -34,6 +34,7 @@ public class App extends Application {
     private final int speed = 180; // 180
     private final int maxYammys = 8;
     private final int freqYammy = 4;
+    private final int freqBonus = 60;
     private final boolean godMode = false;
     
     private final int widthScorePane = 120;
@@ -50,6 +51,7 @@ public class App extends Application {
     AnimationTimer yammyAnimation;
     private final Random random = new Random();
     private int nextTime = 0;
+    private int nextTimeBonus = 0;
     private final ArrayDeque<Rectangle> yummys = new ArrayDeque<>();
     private final String[] icons = {"banana.png", "kiwi.png", "orange.png", "raspberry.png", "watermelon.png"};
     private boolean pause = false;
@@ -270,6 +272,24 @@ public class App extends Application {
                     gridPane.getChildren().remove(nextCell);
                     return;
                 }
+                
+                if (nextCell.getId().equals("bonus")) {
+                    
+                    int weight = 15;
+                    score.setText((Integer.parseInt(score.getText())+weight)+"");
+                    
+                    yummys.removeFirstOccurrence(nextCell);
+                    gridPane.getChildren().remove(nextCell);
+                    
+                    if(snake.size() < 12)
+                        return;
+                    
+                    for(int i = 0; i < 10; i++){
+                        gridPane.getChildren().remove(snake.pollLast());
+                    }
+                    
+                    return;
+                }   
             }
 
             snake.addFirst(nextRect);
@@ -288,15 +308,28 @@ public class App extends Application {
             public void handle(long now) {
                 if (now / 1_000_000_000 >= nextTime) {
                     int delay = random.nextInt(freqYammy) + 1;
-
+                    
                     // первая вкусняшка через 3 секунды
-                    if (nextTime == 0) {
+                    if (nextTime == 0) {    
                         nextTime = (int) (now / 1_000_000_000) + 3;
                         return;
                     }
 
                     makeYammy();
                     nextTime = (int) (now / 1_000_000_000) + delay;
+                }
+                
+                if (now / 1_000_000_000 >= nextTimeBonus) {
+                    int delay = random.nextInt(freqBonus) + 30;
+                    
+                    // первый бонус через 60 секунд
+                    if (nextTimeBonus == 0) {
+                        nextTimeBonus = (int) (now / 1_000_000_000) + 60;
+                        return;
+                    }
+                    
+                    makeBonus();
+                    nextTimeBonus = (int) (now / 1_000_000_000) + delay;
                 }
             }
         };
@@ -328,6 +361,22 @@ public class App extends Application {
         return new StackPane(background, message);
     }
        
+    private void makeBonus() {
+        Rectangle yammy = getRectangleBonus();
+
+        int[] yammyCoord = getFreeCellCoord();
+
+        if (yammyCoord == null) 
+            return;
+
+        if (yummys.size() > maxYammys) 
+            gridPane.getChildren().remove(yummys.removeFirst());
+
+        yummys.addLast(yammy);
+
+        gridPane.add(yammy, yammyCoord[0], yammyCoord[1]);
+    }
+    
     private void makeYammy() {
         Rectangle yammy = getRectangleYummy();
 
@@ -383,10 +432,16 @@ public class App extends Application {
     private Rectangle getRectangleYummy() {
         int i = random.nextInt(icons.length);
         Rectangle r = new Rectangle(sizeRect + 0, sizeRect + 0, Color.RED);
-//        Image image = new Image("file:image/" + icons[i]);
-//        Image image = new Image(getClass().getResourceAsStream("/image/" + icons[i]));
         r.setFill(new ImagePattern(loadImage("image/" + icons[i])));
         r.setId("yammy"+(i*3+1)); // id состоит из префикса и веса вкусняшки
+        return r;
+    }
+    
+    private Rectangle getRectangleBonus() {
+        int i = random.nextInt(icons.length);
+        Rectangle r = new Rectangle(sizeRect + 0, sizeRect + 0, Color.RED);
+        r.setFill(new ImagePattern(loadImage("image/star.png")));
+        r.setId("bonus");
         return r;
     }
 
