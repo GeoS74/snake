@@ -145,6 +145,7 @@ public class App extends Application {
         makeGridPane();
         initSnake();
         direction = "UP";
+        currentDirection = "UP";
         
         createYamyAnimation();
         createSnakeAnimation();
