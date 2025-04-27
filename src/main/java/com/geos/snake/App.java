@@ -391,27 +391,23 @@ public class App extends Application {
     private int[] getNextCoord(int colIndex, int rowIndex) {
         if (direction.equals("UP")) {
             rowIndex--;
-            if (rowIndex < 0) {
+            if (rowIndex < 0) 
                 rowIndex = cellCount - 1;
-            }
         }
         if (direction.equals("DOWN")) {
             rowIndex++;
-            if (rowIndex > cellCount - 1) {
+            if (rowIndex > cellCount - 1) 
                 rowIndex = 0;
-            }
         }
         if (direction.equals("LEFT")) {
             colIndex--;
-            if (colIndex < 0) {
+            if (colIndex < 0) 
                 colIndex = cellCount - 1;
-            }
         }
         if (direction.equals("RIGHT")) {
             colIndex++;
-            if (colIndex > cellCount - 1) {
+            if (colIndex > cellCount - 1) 
                 colIndex = 0;
-            }
         }
         return new int[]{colIndex, rowIndex};
     }
