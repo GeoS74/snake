@@ -31,9 +31,9 @@ import javafx.scene.text.Font;
 
 public class App extends Application {
 
-    private final int speed = 150;
-    private final int maxYammys = 250; // best value = 150
-    private final int freqYammy = 5; // best value = 5
+    private final int speed = 180;
+    private final int maxYammys = 8;
+    private final int freqYammy = 4;
     private final boolean godMode = false;
     
     private final int widthScorePane = 120;
@@ -160,6 +160,8 @@ public class App extends Application {
         mainStage = stage;
         mainStage.setTitle("Snake");        
         mainStage.setScene(getStartScene());
+        mainStage.setResizable(false);
+        mainStage.getIcons().add(loadImage("image/snake.png"));
         mainStage.show();
     }
 
