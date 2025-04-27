@@ -31,7 +31,7 @@ import javafx.scene.text.Font;
 
 public class App extends Application {
 
-    private final int speed = 180;
+    private final int speed = 880; // 180
     private final int maxYammys = 8;
     private final int freqYammy = 4;
     private final boolean godMode = false;
@@ -122,9 +122,8 @@ public class App extends Application {
         finalAnimation();
         
         int currentResult = Integer.parseInt(score.getText());
-        if(bestResult < currentResult){
+        if(bestResult < currentResult)
             bestResult = currentResult;
-        }
     }
     
     private void finalAnimation(){
@@ -332,13 +331,11 @@ public class App extends Application {
 
         int[] yammyCoord = getFreeCellCoord();
 
-        if (yammyCoord == null) {
+        if (yammyCoord == null) 
             return;
-        }
 
-        if (yummys.size() > maxYammys) {
+        if (yummys.size() > maxYammys) 
             gridPane.getChildren().remove(yummys.removeFirst());
-        }
 
         yummys.addLast(yammy);
 
@@ -348,13 +345,13 @@ public class App extends Application {
     private int[] getFreeCellCoord() {
         int x = random.nextInt(cellCount - 1);
         int y = random.nextInt(cellCount - 1);
-        if (isCellEmpty(x, y)) {
+        
+        if (isCellEmpty(x, y)) 
             return new int[]{x, y};
-        }
 
-        if (snake.size() == cellCount * cellCount) {
+        if (snake.size() == cellCount * cellCount) 
             return null;
-        }
+        
         return getFreeCellCoord();
     }
     
@@ -404,21 +401,18 @@ public class App extends Application {
                 rowIndex = 0;
             }
         }
-
         if (direction.equals("LEFT")) {
             colIndex--;
             if (colIndex < 0) {
                 colIndex = cellCount - 1;
             }
         }
-
         if (direction.equals("RIGHT")) {
             colIndex++;
             if (colIndex > cellCount - 1) {
                 colIndex = 0;
             }
         }
-
         return new int[]{colIndex, rowIndex};
     }
     
