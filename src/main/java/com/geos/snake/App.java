@@ -35,6 +35,7 @@ public class App extends Application {
     private final int maxYammys = 8;
     private final int freqYammy = 4;
     private final int freqBonus = 60;
+    private final int cutTailSize = 7;
     private final boolean godMode = false;
     
     private final int widthScorePane = 120;
@@ -275,16 +276,16 @@ public class App extends Application {
                 
                 if (nextCell.getId().equals("bonus")) {
                     
-                    int weight = 15;
+                    int weight = 15; // вес бонуса
                     score.setText((Integer.parseInt(score.getText())+weight)+"");
                     
                     yummys.removeFirstOccurrence(nextCell);
                     gridPane.getChildren().remove(nextCell);
                     
-                    if(snake.size() < 12)
+                    if(snake.size() < (cutTailSize+2))
                         return;
                     
-                    for(int i = 0; i < 10; i++){
+                    for(int i = 0; i < cutTailSize; i++){
                         gridPane.getChildren().remove(snake.pollLast());
                     }
                     
