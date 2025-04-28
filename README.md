@@ -13,21 +13,15 @@ javafx-sdk-24.0.1
 javac -encoding utf-8 --module-path lib/ --add-modules javafx.controls -d build/ src/main/java/com/geos/snake/*.java
 ```
 
-### Сборка JAR (fat jar) Linux
+### Сборка JAR
 
 ```bash
-jar cvfm application/app.jar META-INF/MANIFEST.MF -C build/ . image/ lib/
-```
-
-### Сборка JAR (fat jar) Windows
-
-```bash
-jar cvfm application/app.jar META-INF/MANIFEST.MF -C build/ . image/ lib/ bin/
+jar cvfm application/app.jar META-INF/MANIFEST.MF -C build/ . image/
 ```
 
 ###  Запуск JAR
 
 ```bash
-java --module-path "lib/" --add-modules javafx.controls -jar application/app.jar
+java --module-path lib/ --add-modules javafx.controls -jar application/app.jar
 ```
 
